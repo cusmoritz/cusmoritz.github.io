@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { Home } from './components/Home';
+import { Farkle } from './components/Farkle';
 
 const App = () => {
 
@@ -31,8 +32,8 @@ const App = () => {
                 <Routes>
 
                 <Route exact path="/" element={<Home />} />
+                <Route path="/farkle" element={<Farkle />} />
                 </Routes>
-                <hr></hr>
             </div>
         </BrowserRouter>
         );

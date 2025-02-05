@@ -1,5 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 export const Home = () => {
 
@@ -8,7 +9,7 @@ export const Home = () => {
             <h1>
                 Welcome
             </h1>
-            
+            <Link to="/farkle"><button>Farkle</button></Link>
         </div>
     )
-}
+};
