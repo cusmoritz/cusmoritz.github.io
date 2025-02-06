@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 export const Farkle = () => {
     const [players, setPlayers] = useState([]);
 
-    const [gameRulesBool, setGameRulesBool] = useState(true);
+    const [gameRulesBool, setGameRulesBool] = useState(false);
     const [activePlayer, setActivePlayer] = useState(0); // index of the active player from players arr
     const [currentScoringRun, setCurrentScoringRun] = useState(0); // int
     const [currentScoringRunString, setCurrentScoringRunString] = useState(""); // same thing but no math
@@ -26,6 +26,8 @@ export const Farkle = () => {
     }, []);
 
     const setBufferScoreField = (buttonInput) => {
+        console.log('button input', typeof buttonInput)
+        console.log('bufferScore: ', bufferScore)
 
         // let inputInt = Number.pasrseInt(buttonInput);
         // if (inputInt === NaN) { // only on failure
@@ -45,7 +47,7 @@ export const Farkle = () => {
                     setCurrentScoringRun(0);
                     return setBufferScore("0");
                 } else {
-                    setCurrentScoringRun(bufferScore += buttonInput);
+                    setCurrentScoringRun(bufferScore + buttonInput);
                     return setBufferScore(bufferScore + buttonInput);
                 }
             }
@@ -66,17 +68,14 @@ export const Farkle = () => {
     }
 
     const submitScoreForCurrentPlayer = () => {
-        // will take a string input: '850'
-        // add the numeral value to the currentScoringRun
-        // add the currentScoringRun (different function) to the players[actiuvePlayer].score
-        // set the previousPlayerTurn (different function) tot he current scoring run string and the current scoring run
+
     }
 
     return (
         <div className="farkle-wrapper">
         <h1>Farkle scorer</h1>
         <hr></hr>
-
+        <button onClick={() => {setGameRulesBool(!gameRulesBool)}}>{gameRulesBool === true ? "Hide" : "Show"} rules</button>
         {!gameRulesBool ? null :
             <div><p>These are the game rules.</p>
             <ul>
@@ -156,3 +155,14 @@ export const Farkle = () => {
         </div>
     )
 }
+
+// for 1 turn we need three things, to do addition
+
+    // 1: player rolls 300 points
+        // a: type in 300
+            // i: if roll continues: user clicks add button
+            // ii: if roll does not continue: user clicks submit button
+        // b: if ( i ) : 300 goes into TurnTotal var
+            // TurnTotal var is represented outside of input field
+            // RollTotal var is independent
+        // c: if ( ii ) : 
