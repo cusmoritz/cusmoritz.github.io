@@ -6,28 +6,29 @@ export const Farkle = () => {
 
     const [gameRulesBool, setGameRulesBool] = useState(false);
     const [activePlayer, setActivePlayer] = useState(0); // index of the active player from players arr
-    const [currentScoringRun, setCurrentScoringRun] = useState(0); // int
+
     const [currentScoringRunString, setCurrentScoringRunString] = useState(""); // same thing but no math
     const [activePlayerScore, setActivePlayerScore] = useState(0); // used for addition in the calculator
 
     const [previousPlayerScoreInt, setPreviousPlayerScoreInt] = useState(0); // used for stealing
     const [previousPlayerScoreString, setPreviousPlayerScoreString] = useState(""); // used for display of points available to steal
 
-    const [bufferScore, setBufferScore] = useState("0");
+    const [bufferScore, setBufferScoreString] = useState("0"); // strictly to change the field
+
+    const [currentScoringRun, setCurrentScoringRun] = useState(0); // int
 
 
     useEffect(() => {
         setPlayers([
-            { name: "Marcus", score: 0 },
-            { name: "Hanna", score: 0 },
-            { name: "Allison", score: 0 },
-            { name: "Sean", score: 0 }
+            { name: "Marcus", score: 0, scoreString: "0" },
+            { name: "Hanna", score: 0, scoreString: "0" },
+            { name: "Allison", score: 0, scoreString: "0" },
+            { name: "Sean", score: 0, scoreString: "0" }
         ]);
     }, []);
 
     const setBufferScoreField = (buttonInput) => {
-        console.log('button input', typeof buttonInput)
-        console.log('bufferScore: ', bufferScore)
+        let buttonInputInt = Number(buttonInput);
 
         // let inputInt = Number.pasrseInt(buttonInput);
         // if (inputInt === NaN) { // only on failure
@@ -37,38 +38,70 @@ export const Farkle = () => {
             if (buttonInput !== "0" && buttonInput !== "00") { // we are adding a non-zero number, add it
                 // but first remove the zero that bufferScore defaults
                 if (bufferScore === "0") {
-                    return setBufferScore(buttonInput);
+                    return setBufferScoreString(buttonInput);
                 } else {
-                    return setBufferScore(bufferScore + buttonInput);
+                    return setBufferScoreString(bufferScore + buttonInput);
                 }
             } else if (buttonInput === "0" || buttonInput === "00") { // buttonInput WAS zero, make sure the bufferScore isn't zero or double zero
                 if (bufferScore === "0" || bufferScore === "00") {
                     // this is just zeros on top of zeros
                     setCurrentScoringRun(0);
-                    return setBufferScore("0");
+                    return setBufferScoreString("0");
                 } else {
-                    setCurrentScoringRun(bufferScore + buttonInput);
-                    return setBufferScore(bufferScore + buttonInput);
+                    // setCurrentScoringRun(buttonInput);
+                    return setBufferScoreString(bufferScore + buttonInput);
                 }
             }
         // }
     }
 
-    const addTurnScoreToPlayerTotal = (turnTotalPoints) => {
-        // 6742
-        console.log(turnTotalPoints)
-        if (turnTotalPoints % 50 !== 0) {
-            return alert("That is not a valid farkle score! Please check the score box.");
-        } 
+    // const addTurnScoreToPlayerTotal = (turnTotalPoints) => {
+    //     // 6742
+    //     console.log(turnTotalPoints)
+    //     if (turnTotalPoints % 50 !== 0) {
+    //         return alert("That is not a valid farkle score! Please check the score box.");
+    //     } 
 
-        let currentPlayer = players[activePlayer]; //players[0], [1]
-        console.log('current player', currentPlayer)
-        currentPlayer.score += turnTotalPoints;
-        console.log('currentPlayer.score: ', players[activePlayer].score);
+    //     let currentPlayer = players[activePlayer]; //players[0], [1]
+    //     console.log('current player', currentPlayer)
+    //     currentPlayer.score += turnTotalPoints;
+    //     console.log('currentPlayer.score: ', players[activePlayer].score);
+    // }
+
+    const advancePlayer = () => {
+        let nextPlayer = activePlayer + 1;
+        if (nextPlayer == players.length) {
+            // wrap back around to 0
+            nextPlayer = 0;
+        }
+        return setActivePlayer(nextPlayer);
     }
 
     const submitScoreForCurrentPlayer = () => {
+        let newScoreInt = Number(bufferScore);
 
+        if (newScoreInt % 50 !== 0) {
+            return alert("That is not a valid farkle score! Please check the score box.");
+        } 
+
+        // get the player from active player
+        let currentPlayer = players[activePlayer];
+
+        // get the current players score
+        let oldScore = currentPlayer.score;
+
+        // add the oldScore to the newScore
+        let newScore = oldScore += newScoreInt;
+
+        // remove old score string
+        currentPlayer.scoreString = "";
+
+        // update the currentPlayers score and score string
+        currentPlayer.score = newScore;
+        currentPlayer.scoreString = newScore;
+
+        // advance the next player
+        return advancePlayer();
     }
 
     return (
@@ -113,7 +146,7 @@ export const Farkle = () => {
         
             players.map((player, index) => {
                 return(
-                    <div key={index} className="player-wrapper">
+                    <div key={index} className={`one-player-wrapper ${index === activePlayer ? "active" : null}`}>
                         <p>{player.name}</p>
                         <p>{player.score}</p>
                     </div>
@@ -129,7 +162,9 @@ export const Farkle = () => {
         }
 
         <div className="score-input-wrapper">
-            <button className="clear-button" onClick={(e) => {setBufferScore("0")}}>C</button> &nbsp; <p className="score-addition-counter" type="text">{bufferScore}</p> &nbsp; <button onClick={() => {addTurnScoreToPlayerTotal}}>Submit score</button>
+            <button className="clear-button" onClick={(e) => {setBufferScoreString("0")}}>C</button>
+            <br></br>
+            <p className="score-addition-counter" type="text">{bufferScore}</p> &nbsp; <button onClick={submitScoreForCurrentPlayer}>Submit score</button>
             
             <br></br>
             <div className="number-buttons-wrapper">
