@@ -1,0 +1,7 @@
+.one-player-wrapper.active {
+    border: 1px solid green;
+}
+
+.one-player-wrapper.active::before {
+    content: "♚";
+}
