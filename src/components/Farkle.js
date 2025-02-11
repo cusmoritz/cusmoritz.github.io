@@ -90,6 +90,7 @@ export const Farkle = () => {
         }
         checkCurrentLeaderScore();
         setBufferScoreString("0");
+        
         return setActivePlayer(nextPlayer);
     }
 
@@ -125,7 +126,7 @@ export const Farkle = () => {
         setCurrentScoringRun(0);
         setBufferScoreString("0");
         players[activePlayer].farkleCount += 1;
-        console.log('farkle count: ', players[activePlayer].farkleCount);
+        // console.log('farkle count: ', players[activePlayer].farkleCount);
         return advancePlayer();
     }
 
@@ -185,10 +186,10 @@ export const Farkle = () => {
                     <div 
                     key={index} 
                     className={`one-player-wrapper ${index === activePlayer ? "active" : ""}`}
-                    style={{background: "orange"}}
+                    style={{background: "#73a8ff"}}
                     >
                         <p className={`player-name ${index === currentLeader ? "current-leader" : ""}`}>{player.name}</p>
-                        <p style={{paddingLeft: percent + "%"}}>{player.score}</p>
+                        <p className="player-score" style={{paddingLeft: percent + "%"}}>{player.score}</p>
                         {player.score == 0 ? null : <p>({distance} points from victory.)</p>}
                     </div>
                 )
@@ -203,9 +204,15 @@ export const Farkle = () => {
         }
 
         <div className="score-input-wrapper">
-            <button className="clear-button" onClick={(e) => {setBufferScoreString("0")}}>C</button>
-            <br></br>
-            <p className="score-addition-counter" type="text">{bufferScore}</p> &nbsp; <button onClick={submitScoreForCurrentPlayer}>Submit score</button>
+            <div className="utility-buttons">
+                <p className="score-addition-counter" type="text">{bufferScore}</p>
+                <br></br>
+                {players[activePlayer] ? <p>Scoring for {players[activePlayer].name}</p> : null}
+                <div>
+                    <button onClick={submitScoreForCurrentPlayer}>Submit score</button> &nbsp;
+                    <button className="clear-button" onClick={(e) => {setBufferScoreString("0")}}>Clear score</button>
+                </div>
+            </div>
             
             <br></br>
             <div className="number-buttons-wrapper">
