@@ -7,23 +7,21 @@ export const Farkle = () => {
     const [gameRulesBool, setGameRulesBool] = useState(false);
     const [activePlayer, setActivePlayer] = useState(0); // index of the active player from players arr
 
-    const [currentScoringRunString, setCurrentScoringRunString] = useState(""); // same thing but no math
-    const [activePlayerScore, setActivePlayerScore] = useState(0); // used for addition in the calculator
-
-    const [previousPlayerScoreInt, setPreviousPlayerScoreInt] = useState(0); // used for stealing
-    const [previousPlayerScoreString, setPreviousPlayerScoreString] = useState(""); // used for display of points available to steal
+    const [previousPlayerScore, setPreviousPlayerScore] = useState(0); // used for display of points available to steal
 
     const [bufferScore, setBufferScoreString] = useState("0"); // strictly to change the field
 
     const [currentScoringRun, setCurrentScoringRun] = useState(0); // int
 
+    const [currentLeader, setCurrentLeader] = useState(-1) // players index of current leader
+    const [currentLeaderScore, setCurrentLeaderScore] = useState(0);
 
     useEffect(() => {
         setPlayers([
-            { name: "Marcus", score: 0, scoreString: "0" },
-            { name: "Hanna", score: 0, scoreString: "0" },
-            { name: "Allison", score: 0, scoreString: "0" },
-            { name: "Sean", score: 0, scoreString: "0" }
+            { name: "Marcus", score: 0, scoreString: "0", farkleCount: 0 },
+            { name: "Hanna", score: 0, scoreString: "0", farkleCount: 0 },
+            { name: "Allison", score: 0, scoreString: "0", farkleCount: 0 },
+            { name: "Sean", score: 0, scoreString: "0", farkleCount: 0 }
         ]);
     }, []);
 
@@ -68,12 +66,28 @@ export const Farkle = () => {
     //     console.log('currentPlayer.score: ', players[activePlayer].score);
     // }
 
+    const checkCurrentLeaderScore = () => {
+        let currentLeaderIndex = -1;
+        for (let i = 0; i < players.length; i++) {
+            if (players[i].score > currentLeaderScore && players[i].score != 0) {
+                currentLeaderIndex = i;
+            }
+        }
+        if (currentLeaderIndex > -1) {
+            setCurrentLeaderScore(players[currentLeaderIndex].score);
+            setCurrentLeader(currentLeaderIndex);
+        }
+        return;
+    }
+
     const advancePlayer = () => {
         let nextPlayer = activePlayer + 1;
         if (nextPlayer == players.length) {
             // wrap back around to 0
             nextPlayer = 0;
         }
+        checkCurrentLeaderScore();
+        setBufferScoreString("0");
         return setActivePlayer(nextPlayer);
     }
 
@@ -101,6 +115,15 @@ export const Farkle = () => {
         currentPlayer.scoreString = newScore;
 
         // advance the next player
+        return advancePlayer();
+    }
+
+    const submitFarkleScore = () => {
+        // pretty much just set it all to zero and move on
+        setCurrentScoringRun(0);
+        setBufferScoreString("0");
+        players[activePlayer].farkleCount += 1;
+        console.log('farkle count: ', players[activePlayer].farkleCount);
         return advancePlayer();
     }
 
@@ -146,9 +169,10 @@ export const Farkle = () => {
         
             players.map((player, index) => {
                 return(
-                    <div key={index} className={`one-player-wrapper ${index === activePlayer ? "active" : null}`}>
-                        <p>{player.name}</p>
+                    <div key={index} className={`one-player-wrapper ${index === activePlayer ? "active" : ""}`}>
+                        <p className={`player-name ${index === currentLeader ? "current-leader" : ""}`}>{player.name}</p>
                         <p>{player.score}</p>
+                        {player.score == 0 ? null : <p>({10000 - player.score} points from victory.)</p>}
                     </div>
                 )
             })
@@ -182,7 +206,7 @@ export const Farkle = () => {
                 <br></br>
                 <button className="number-button" value="00" onClick={((e) => {setBufferScoreField(e.target.value)})}>00</button> &nbsp; 
                 <button className="number-button" value="0" onClick={((e) => {setBufferScoreField(e.target.value)})}>0</button> &nbsp; 
-                <button className="number-button">FARKLE</button>
+                <button className="number-button" onClick={submitFarkleScore}>FARKLE</button>
 
             </div>
             
