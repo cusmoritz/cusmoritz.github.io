@@ -5,6 +5,8 @@ export const Farkle = () => {
     const [players, setPlayers] = useState([]);
 
     const [gameRulesBool, setGameRulesBool] = useState(false);
+    const [scoringBool, setScoringBool] = useState(false);
+
     const [activePlayer, setActivePlayer] = useState(0); // index of the active player from players arr
 
     const [previousPlayerScore, setPreviousPlayerScore] = useState(0); // used for display of points available to steal
@@ -131,11 +133,14 @@ export const Farkle = () => {
         <div className="farkle-wrapper">
         <h1>Farkle scorer</h1>
         <hr></hr>
-        <button onClick={() => {setGameRulesBool(!gameRulesBool)}}>{gameRulesBool === true ? "Hide" : "Show"} rules</button>
+        <button onClick={() => {setGameRulesBool(!gameRulesBool)}}>{gameRulesBool === true ? "Hide" : "Show"} rules</button> &nbsp;
+        <button onClick={() => {setScoringBool(!scoringBool)}}>{scoringBool === true ? "Hide" : "Show"} scoring</button>
+
         {!gameRulesBool ? null :
             <div><p>These are the game rules.</p>
             <ul>
                 <li>Turns are made of throws. You get as many throws as you have un-scored die.</li>
+                <li>No die may score with another throw</li>
                 <li>A player's turn may end whenever they wish.</li>
                 <li>You must always keep <i>at least</i> one scoring die aside to add to your score to roll again.</li>
                 <li>To get on the board: First scoring turn must be 500 or more points.</li>
@@ -143,18 +148,7 @@ export const Farkle = () => {
                 <li>Points can only be stolen by a player who is already on the board.</li>
                 <li>If you score all 6 die, you get to reroll all die and continue building on your score.</li>
                 <li></li>
-                <li>No die may score with another throw.  Scoring:
-                    <p>Fives ( &#9860; ) : 50 points each. Two ( 2 ) fives is 100 points.</p>
-                    <p>Ones ( &#9856; ) : 100 points each. Three ( 3 ) ones is 300 points.</p>
-                    <p>Pair ( &#9857; &#9857; ) : Zero ( 0 ) points by itself.</p>
-                    <p>Three of a kind ( &#9859; &#9859; &#9859; ) : Face value of the dice times 100. Three twos ( 2 ) is worth 200 points.</p>
-                    <p>Four of a kind ( &#9858; &#9858; &#9858; &#9858; ) : 1000 points.</p>
-                    <p>Five of a kind ( &#9856; &#9856; &#9856; &#9856; &#9856; ) : 2000 points.</p>
-                    <p>Six of a kind ( &#9857; &#9857; &#9857; &#9857; &#9857; &#9857; ) : 3000 points.</p>
-                    <p>Straight ( &#9856; &#9857; &#9858; &#9859; &#9860; &#9861; ) : 1500 points. There is no Yahtzee small straight.</p>
-                    <p>Three pairs ( &#9858; &#9858; &#9856; &#9856; &#9861; &#9861; ) : 1500 points.</p>
-                    <p>Two triplets ( &#9856; &#9856; &#9856; &#9860; &#9860; &#9860; ) : 2500 points.</p>
-                </li>
+
             </ul>
             &#9856;
             &#9857;
@@ -162,6 +156,23 @@ export const Farkle = () => {
             &#9859;
             &#9860;
             &#9861;
+            </div>
+        }
+
+        {!scoringBool ? null : 
+            <div>
+                <ul>
+                <li>Fives ( &#9860; ) : 50 points each. Two ( 2 ) fives is 100 points.</li>
+                <li>Ones ( &#9856; ) : 100 points each. Three ( 3 ) ones is 300 points.</li>
+                <li>Pair ( &#9857; &#9857; ) : Zero ( 0 ) points by itself.</li>
+                <li>Three of a kind ( &#9859; &#9859; &#9859; ) : Face value of the dice times 100. Three twos ( 2 ) is worth 200 points.</li>
+                <li>Four of a kind ( &#9858; &#9858; &#9858; &#9858; ) : 1000 points.</li>
+                <li>Straight ( &#9856; &#9857; &#9858; &#9859; &#9860; &#9861; ) : 1500 points. There is no Yahtzee small straight.</li>
+                <li>Three pairs ( &#9858; &#9858; &#9856; &#9856; &#9861; &#9861; ) : 1500 points.</li>
+                <li>Five of a kind ( &#9856; &#9856; &#9856; &#9856; &#9856; ) : 2000 points.</li>
+                <li>Two triplets ( &#9856; &#9856; &#9856; &#9860; &#9860; &#9860; ) : 2500 points.</li>
+                <li>Six of a kind ( &#9857; &#9857; &#9857; &#9857; &#9857; &#9857; ) : 3000 points.</li>
+                </ul>
             </div>
         }
 
