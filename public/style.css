@@ -3,5 +3,9 @@
 }
 
 .one-player-wrapper.active::before {
-    content: "♚";
+    /* content: "♚"; */
+}
+
+.player-name.current-leader::before {
+    content: "♚ ";
 }
