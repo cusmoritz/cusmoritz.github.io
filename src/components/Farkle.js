@@ -168,11 +168,17 @@ export const Farkle = () => {
         {!players ? null : 
         
             players.map((player, index) => {
+                let distance = 10000 - player.score;
+                let percent = (player.score / 10000) * 100;
                 return(
-                    <div key={index} className={`one-player-wrapper ${index === activePlayer ? "active" : ""}`}>
+                    <div 
+                    key={index} 
+                    className={`one-player-wrapper ${index === activePlayer ? "active" : ""}`}
+                    style={{background: "orange"}}
+                    >
                         <p className={`player-name ${index === currentLeader ? "current-leader" : ""}`}>{player.name}</p>
-                        <p>{player.score}</p>
-                        {player.score == 0 ? null : <p>({10000 - player.score} points from victory.)</p>}
+                        <p style={{paddingLeft: percent + "%"}}>{player.score}</p>
+                        {player.score == 0 ? null : <p>({distance} points from victory.)</p>}
                     </div>
                 )
             })
@@ -192,36 +198,35 @@ export const Farkle = () => {
             
             <br></br>
             <div className="number-buttons-wrapper">
-                <button className="number-button" value="9" onClick={((e) => {setBufferScoreField(e.target.value)})}>9</button> &nbsp; 
-                <button className="number-button" value="8" onClick={((e) => {setBufferScoreField(e.target.value)})}>8</button> &nbsp; 
-                <button className="number-button" value="7" onClick={((e) => {setBufferScoreField(e.target.value)})}>7</button>
-                <br></br>
-                <button className="number-button" value="6" onClick={((e) => {setBufferScoreField(e.target.value)})}>6</button> &nbsp; 
-                <button className="number-button" value="5" onClick={((e) => {setBufferScoreField(e.target.value)})}>5</button> &nbsp; 
-                <button className="number-button" value="4" onClick={((e) => {setBufferScoreField(e.target.value)})}>4</button>
-                <br></br>
-                <button className="number-button" value="3" onClick={((e) => {setBufferScoreField(e.target.value)})}>3</button> &nbsp; 
-                <button className="number-button" value="2" onClick={((e) => {setBufferScoreField(e.target.value)})}>2</button> &nbsp; 
-                <button className="number-button" value="1" onClick={((e) => {setBufferScoreField(e.target.value)})}>1</button>
-                <br></br>
-                <button className="number-button" value="00" onClick={((e) => {setBufferScoreField(e.target.value)})}>00</button> &nbsp; 
-                <button className="number-button" value="0" onClick={((e) => {setBufferScoreField(e.target.value)})}>0</button> &nbsp; 
-                <button className="number-button" onClick={submitFarkleScore}>FARKLE</button>
+                <div className="button-three-pack">
+                    <button className="number-button" value="7" onClick={((e) => {setBufferScoreField(e.target.value)})}>7</button> &nbsp;
+                    <button className="number-button" value="8" onClick={((e) => {setBufferScoreField(e.target.value)})}>8</button> &nbsp; 
+                    <button className="number-button" value="9" onClick={((e) => {setBufferScoreField(e.target.value)})}>9</button>  
 
+                </div>
+                <br></br>
+                <div className="button-three-pack">
+                    <button className="number-button" value="4" onClick={((e) => {setBufferScoreField(e.target.value)})}>4</button> &nbsp;
+                    <button className="number-button" value="5" onClick={((e) => {setBufferScoreField(e.target.value)})}>5</button> &nbsp; 
+                    <button className="number-button" value="6" onClick={((e) => {setBufferScoreField(e.target.value)})}>6</button>  
+                </div>
+
+                <br></br>
+                <div className="button-three-pack">
+                    <button className="number-button" value="1" onClick={((e) => {setBufferScoreField(e.target.value)})}>1</button> &nbsp;
+                    <button className="number-button" value="2" onClick={((e) => {setBufferScoreField(e.target.value)})}>2</button> &nbsp; 
+                    <button className="number-button" value="3" onClick={((e) => {setBufferScoreField(e.target.value)})}>3</button>  
+                </div>
+
+                <br></br>
+                <div className="button-three-pack">
+                    <button className="number-button" value="00" onClick={((e) => {setBufferScoreField(e.target.value)})}>00</button> &nbsp; 
+                    <button className="number-button" value="0" onClick={((e) => {setBufferScoreField(e.target.value)})}>0</button> &nbsp; 
+                    <button className="number-button farkle-button" onClick={submitFarkleScore}>FARKLE</button>
+                </div>
             </div>
             
         </div>
         </div>
     )
-}
-
-// for 1 turn we need three things, to do addition
-
-    // 1: player rolls 300 points
-        // a: type in 300
-            // i: if roll continues: user clicks add button
-            // ii: if roll does not continue: user clicks submit button
-        // b: if ( i ) : 300 goes into TurnTotal var
-            // TurnTotal var is represented outside of input field
-            // RollTotal var is independent
-        // c: if ( ii ) : 
+};
