@@ -16,16 +16,19 @@ export const Farkle = () => {
     const [currentScoringRun, setCurrentScoringRun] = useState(0); // int
 
     const [currentLeader, setCurrentLeader] = useState(-1) // players index of current leader
+
     const [currentLeaderScore, setCurrentLeaderScore] = useState(0);
 
-    useEffect(() => {
-        setPlayers([
-            { name: "Marcus", score: 0, scoreString: "0", farkleCount: 0 },
-            { name: "Hanna", score: 0, scoreString: "0", farkleCount: 0 },
-            { name: "Allison", score: 0, scoreString: "0", farkleCount: 0 },
-            { name: "Sean", score: 0, scoreString: "0", farkleCount: 0 }
-        ]);
-    }, []);
+    const [stealablePoints, setStealablePoints] = useState(0); // for stealing
+
+    // useEffect(() => {
+    //     setPlayers([
+    //         // { name: "Marcus", score: 0, scoreString: "0", farkleCount: 0 },
+    //         // { name: "Hanna", score: 0, scoreString: "0", farkleCount: 0 },
+    //         // { name: "Allison", score: 0, scoreString: "0", farkleCount: 0 },
+    //         // { name: "Sean", score: 0, scoreString: "0", farkleCount: 0 }
+    //     ]);
+    // }, []);
 
     const setBufferScoreField = (buttonInput) => {
         let buttonInputInt = Number(buttonInput);
@@ -82,6 +85,15 @@ export const Farkle = () => {
         return;
     }
 
+    const findStealablePoints = (score) => {
+        if (score == 0) {
+            setStealablePoints(0);
+        } else {
+            setStealablePoints(score);
+        }
+        return;
+    }
+
     const advancePlayer = () => {
         let nextPlayer = activePlayer + 1;
         if (nextPlayer == players.length) {
@@ -94,16 +106,20 @@ export const Farkle = () => {
         return setActivePlayer(nextPlayer);
     }
 
+    const findNextPlayersScore = (playerObj) => {
+
+    }
+
     const submitScoreForCurrentPlayer = () => {
         let newScoreInt = Number(bufferScore);
 
-        if (newScoreInt % 50 !== 0) {
+        if (newScoreInt % 50 !== 0 || newScoreInt < 50) {
             return alert("That is not a valid farkle score! Please check the score box.");
         } 
 
         // get the player from active player
         let currentPlayer = players[activePlayer];
-
+        console.log('current player: ', currentPlayer)
         // get the current players score
         let oldScore = currentPlayer.score;
 
@@ -116,6 +132,16 @@ export const Farkle = () => {
         // update the currentPlayers score and score string
         currentPlayer.score = newScore;
         currentPlayer.scoreString = newScore;
+
+        let nextPlayer = activePlayer + 1;
+        nextPlayer == players.length ? nextPlayer = 0 : nextPlayer;
+        nextPlayer = players[nextPlayer];
+
+        if (nextPlayer.score >= 500) { // they are on the board, points are stealable
+            findStealablePoints(newScoreInt);
+        } else {
+            findStealablePoints(0);
+        }
 
         // advance the next player
         return advancePlayer();
@@ -130,12 +156,27 @@ export const Farkle = () => {
         return advancePlayer();
     }
 
+    const addPlayer = () => {
+        let name = prompt(`Enter the name for the ${players.length == 0 ? 'first' : 'next'} player:`);
+        if (name == null) {
+            // they hit cancel
+            return;
+        } else if (name.length < 1) {
+            // they hit ok but didn't type anything
+            alert("A name must be at least 1 charcter long.");
+            return addPlayer();
+        } else {
+            setPlayers([...players, { name: name, score: 0, scoreString: "0", farkleCount: 0 }])
+        }
+    }
+
     return (
         <div className="farkle-wrapper">
         <h1>Farkle scorer</h1>
         <hr></hr>
         <button onClick={() => {setGameRulesBool(!gameRulesBool)}}>{gameRulesBool === true ? "Hide" : "Show"} rules</button> &nbsp;
-        <button onClick={() => {setScoringBool(!scoringBool)}}>{scoringBool === true ? "Hide" : "Show"} scoring</button>
+        <button onClick={() => {setScoringBool(!scoringBool)}}>{scoringBool === true ? "Hide" : "Show"} scoring</button> &nbsp;
+        <button onClick={addPlayer}>Add player</button>
 
         {!gameRulesBool ? null :
             <div><p>These are the game rules.</p>
@@ -177,8 +218,7 @@ export const Farkle = () => {
             </div>
         }
 
-        {!players ? null : 
-        
+        {players == null ? null : 
             players.map((player, index) => {
                 let distance = 10000 - player.score;
                 let percent = (player.score / 10000) * 100;
@@ -196,18 +236,19 @@ export const Farkle = () => {
             })
         }
 
-        {!players ? null : 
+        {players == null ? null : 
         <div>
             {/* <label htmlFor="current-run-score">Current run score for {players[0].name}:</label><p className="current-run-score" value={bufferScore}></p> */}
             {/* <p>Current player: {players[activePlayer].name}</p> */}
         </div>
         }
 
+        {players == null ? null : 
         <div className="score-input-wrapper">
             <div className="utility-buttons">
                 <p className="score-addition-counter" type="text">{bufferScore}</p>
                 <br></br>
-                {players[activePlayer] ? <p>Scoring for {players[activePlayer].name}</p> : null}
+                {players[activePlayer] ? <p>Scoring for {players[activePlayer].name}{stealablePoints > 0 ? `, ${stealablePoints} stealable points.` : null}</p> : null}
                 <div>
                     <button onClick={submitScoreForCurrentPlayer}>Submit score</button> &nbsp;
                     <button className="clear-button" onClick={(e) => {setBufferScoreString("0")}}>Clear score</button>
@@ -243,8 +284,9 @@ export const Farkle = () => {
                     <button className="number-button farkle-button" onClick={submitFarkleScore}>FARKLE</button>
                 </div>
             </div>
-            
         </div>
+        }
+        
         </div>
     )
 };
