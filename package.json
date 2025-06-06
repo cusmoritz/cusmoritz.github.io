@@ -16,7 +16,7 @@
   "bugs": {
     "url": "https://github.com/cusmoritz/cusmoritz.github.io/issues"
   },
-  "homepage": "https://github.com/cusmoritz/cusmoritz.github.io#readme",
+
   "dependencies": {
     "babel-preset-react": "^6.24.1",
     "react": "^19.0.0",

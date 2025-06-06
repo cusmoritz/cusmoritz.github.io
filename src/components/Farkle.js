@@ -250,7 +250,7 @@ export const Farkle = () => {
                 <br></br>
                 {players[activePlayer] ? <p>Scoring for {players[activePlayer].name}{stealablePoints > 0 ? `, ${stealablePoints} stealable points.` : null}</p> : null}
                 <div>
-                    <button onClick={submitScoreForCurrentPlayer}>Submit score</button> &nbsp;
+                    <button onClick={submitScoreForCurrentPlayer} className="submit-button" >Submit score</button> &nbsp;
                     <button className="clear-button" onClick={(e) => {setBufferScoreString("0")}}>Clear score</button>
                 </div>
             </div>

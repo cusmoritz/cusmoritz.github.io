@@ -69,3 +69,8 @@
 .clear-button {
     background-color: #fe4848;
 }
+
+.submit-button {
+    background-color: blue;
+    color: white;
+}
