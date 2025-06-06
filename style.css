@@ -1,0 +1,76 @@
+/* .one-player-wrapper.active {
+    border: 1px solid green;
+} */
+
+.one-player-wrapper {
+    /* background: rgb(255,0,245); */
+    background: linear-gradient(90deg, rgba(255,0,245,1) 0%, rgba(255,0,0,1) 60%, rgba(0,212,255,1) 100%);
+    margin-bottom: 20px;
+}
+
+.one-player-wrapper > p{
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.one-player-wrapper.active::before {
+    /* content: "♚"; */
+}
+
+.one-player-wrapper.active {
+    border: 5px solid red;
+}
+
+.player-name.current-leader::before {
+    content: "♚ ";
+}
+
+.button-three-pack {
+    width: 100%;
+    display: flex;
+}
+
+.button-three-pack > .number-button {
+    flex-grow: 1;
+    height: 50px;
+}
+
+.utility-buttons {
+    display: flex;
+    flex-direction: column;
+}
+
+.utility-buttons > button {
+    height: 30px;
+}
+
+.utility-buttons > div {
+    display: flex;
+    button {
+        flex-grow: 1;
+        height: 30px;
+    }
+}
+
+.utility-buttons > p {
+    text-align: center;
+}
+
+.score-addition-counter {
+    text-align: center;
+    font-size: xx-large;
+    margin: 0;
+}
+
+.farkle-button {
+    background-color: #fe4848;
+}
+
+.clear-button {
+    background-color: #fe4848;
+}
+
+.submit-button {
+    background-color: blue;
+    color: white;
+}
