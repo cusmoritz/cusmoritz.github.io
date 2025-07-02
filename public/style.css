@@ -74,3 +74,223 @@
     background-color: blue;
     color: white;
 }
+
+@font-face {
+  font-family: msSans;
+  src: url(MS\ Sans\ Serif\ 8pt.ttf);
+}
+
+* {
+  font-family: msSans;
+}
+
+#resume {
+  height: 100vh;
+  width: 100vw;
+}
+
+.hover {
+  position: absolute;
+  border: 1px solid black;
+  background-color: #ffff;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 5px 5px 5px #808080;
+}
+
+body {
+    background-color: rgb(19, 195, 195);
+}
+
+.App {
+  background-color: rgb(19, 195, 195);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.title-bar {
+  background: linear-gradient(90deg, navy, #1084d0);
+  display: flex;
+  justify-content: space-between;
+  cursor: move;
+  padding: 3px;
+}
+
+.title-bar-min{
+  background: linear-gradient(90deg, navy, #1084d0);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: move;
+  padding: 3px;
+  box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #dfdfdf, inset -2px -2px #808080, inset 2px 2px #fff;
+}
+
+.title-text {
+  font-weight: 900;
+  color: white;
+  padding: 3px;
+}
+
+#minimize {
+  /* animation-name: minimize;
+  animation-duration: ;
+  animation-duration: 1s; */
+  box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #dfdfdf, inset -2px -2px #808080, inset 2px 2px #fff;
+  background-color: silver;
+  width: 250px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+}
+
+button {
+  box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px grey, inset 2px 2px #dfdfdf;
+  background-color: #c0c0c0;
+  min-height: 16px;
+  min-width: 16px;
+}
+
+menu {
+  display: flex;
+  list-style-type: none;
+  margin: 0 0 -2px;
+  position: relative;
+  text-indent: 0;
+  padding: 3px 3px 1px 1px;
+}
+
+
+menu>li {
+  padding: 6px;
+  box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px #808080, inset 2px 2px #dfdfdf;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+menu>li[aria-selected="true"] {
+  z-index: 3;
+  background: silver;
+  margin-top: -2px;
+  box-shadow: inset -1px 0 #0a0a0a, inset 1px 1px #dfdfdf, inset -2px 0 grey, inset 2px 2px #fff;
+  margin-bottom: -3px;
+  /* right left bottom top */
+  /* offset-x, offset-y */
+
+}
+
+menu>li a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.main-content-container {
+  box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #dfdfdf, inset -2px -2px #808080, inset 2px 2px #fff;
+  padding: 3px;
+  margin: 1px;
+}
+
+.main-content {
+  padding: 6px;
+}
+
+.home-tree {
+  background-color: white;
+  box-shadow: inset -1px -1px #fff, inset 1px 1px #808080, inset -2px -2px #dfdfdf, inset 2px 2px #0a0a0a;
+  padding: 6px;
+}
+
+.home-tree li {
+  list-style-type: none;
+  max-width: 30%;
+  min-width: fit-content;
+}
+/* 
+.home-tree p {
+  margin-top: 3px;
+  margin-bottom: 3px;
+} */
+
+details>summary::before {
+  content: "+"
+}
+
+.home-tree ul {
+  border-left: 1px dotted #808080;
+  padding-left: 16px;
+  margin-left: 10px;
+}
+
+.status-bar {
+  height: 25px;
+
+  margin-top: 3px;
+  margin-bottom: 2px;
+  margin-left: 1px;
+  margin-right: 1px;
+  display: flex;
+  align-items: stretch;
+  justify-content: space-evenly;
+}
+
+.status-text {
+  padding-left: 10px;
+  box-shadow: inset -1px -1px #fff, inset 1px 1px #808080, inset -2px -2px #dfdfdf, inset 2px 2px #0a0a0a;
+  padding-right: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.status-size {
+  padding-left: 10px;
+  flex: 1;
+  /* box-shadow: inset -1px -1px #808080, inset 1px 1px #fff, inset 2px 2px #dfdfdf, inset -2px -2px #0a0a0a; */
+  width: 80%;
+  box-shadow: inset -1px -1px #fff, inset 1px 1px #808080, inset -2px -2px #dfdfdf, inset 2px 2px #0a0a0a;
+  display: flex;
+  align-items: center;
+}
+
+summary::marker {
+  content: none;
+}
+
+ul.home-tree details[open]>summary:before {
+  content: "-";
+}
+
+ul.home-tree details[closed]>summary:before {
+  content: "+";
+}
+
+.blog-p {
+  font-style: italic;
+}
+
+ul.home-tree ul>li:before{
+  border-bottom: 1px dotted #808080;
+  content: "";
+  display: block;
+  left: -16px;
+  position: relative;
+  top: 15px;
+  width: 12px;
+}
+
+ul>li>details>summary {
+  padding-left: 6px;
+}
+
+#window-container {
+  box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #dfdfdf, inset -2px -2px #808080, inset 2px 2px #fff;
+  background-color: silver;
+  min-height: fit-content;
+  max-height: calc(100% - 50px);
+  min-width: 70%;
+
+  padding: 3px;
+}
+

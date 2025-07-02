@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export const Projects = () => {
 
@@ -55,6 +56,21 @@ export const Projects = () => {
                 <h2>Personal and professional (tk) software development projects / applications 💾</h2>
                 <ul className='home-tree'>
                   <p><i>Projects are listed in reverse chronological order, hopefully the best stuff is near the top.</i></p>
+                  {/* <li><Link to="/farkle"><button>Farkle Scorer</button></Link></li> */}
+                  <li>
+                    <details closed="true">
+                        <summary>Farkle Scorer</summary>
+                        <ul>
+                        <li><u>Title:</u>Farkle</li>
+                        <li><u>Link:</u> <Link to="/projects/farkle">Farkle</Link></li>
+                        <li><u>Purpose:</u> Ad-free, minimal Farkle game scoring calculator.</li>
+                        <li><u>Inspiration:</u> I needed a way to score the game without constantly being interupted.</li>
+                        <li><u>Build:</u> React, Javascript.</li>
+                        <li><u>Learned:</u> Some math, practice keeping state for an 'undo' button.</li>
+                        <li><u>Concurrent users:</u> 1 (one)</li>
+                        </ul>
+                    </details>
+                  </li>
                   <li>
                   <details closed="true">
                       <summary>This website!</summary>

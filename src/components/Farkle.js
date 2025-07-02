@@ -21,6 +21,8 @@ export const Farkle = () => {
 
     const [stealablePoints, setStealablePoints] = useState(0); // for stealing
 
+    const [rebuttalBool, setRebuttalBool] = useState(false); // dun dun dun
+
     // useEffect(() => {
     //     setPlayers([
     //         // { name: "Marcus", score: 0, scoreString: "0", farkleCount: 0 },
@@ -71,6 +73,13 @@ export const Farkle = () => {
     //     console.log('currentPlayer.score: ', players[activePlayer].score);
     // }
 
+    const startRebuttal = () => {
+        setRebuttalBool(true)
+        var leader = players[currentLeader];
+        console.log('leader: ', leader)
+        alert(`Rebuttal time! All remaining players have 1 more turn to beat ${leader.name}'s high score of ${leader.score}. The game ends when play comes back around to ${leader.name}. Good luck!`);
+    }
+
     const checkCurrentLeaderScore = () => {
         let currentLeaderIndex = -1;
         for (let i = 0; i < players.length; i++) {
@@ -100,7 +109,6 @@ export const Farkle = () => {
             // wrap back around to 0
             nextPlayer = 0;
         }
-        checkCurrentLeaderScore();
         setBufferScoreString("0");
         
         return setActivePlayer(nextPlayer);
@@ -143,6 +151,12 @@ export const Farkle = () => {
             findStealablePoints(0);
         }
 
+        checkCurrentLeaderScore();
+
+        if (newScore > 10000) {
+            startRebuttal();
+        }
+
         // advance the next player
         return advancePlayer();
     }
@@ -174,6 +188,7 @@ export const Farkle = () => {
         <div className="farkle-wrapper">
         <h1>Farkle scorer</h1>
         <hr></hr>
+        <div className="rebuttal-wrapper">
         <button onClick={() => {setGameRulesBool(!gameRulesBool)}}>{gameRulesBool === true ? "Hide" : "Show"} rules</button> &nbsp;
         <button onClick={() => {setScoringBool(!scoringBool)}}>{scoringBool === true ? "Hide" : "Show"} scoring</button> &nbsp;
         <button onClick={addPlayer}>Add player</button>
@@ -248,9 +263,9 @@ export const Farkle = () => {
             <div className="utility-buttons">
                 <p className="score-addition-counter" type="text">{bufferScore}</p>
                 <br></br>
-                {players[activePlayer] ? <p>Scoring for {players[activePlayer].name}{stealablePoints > 0 ? `, ${stealablePoints} stealable points.` : null}</p> : null}
+                {players[activePlayer] ? <p>{rebuttalBool ? "Last turn for " : "Scoring for"} {players[activePlayer].name}{stealablePoints > 0 ? `${rebuttalBool ? "!" : ","} ${stealablePoints} buildable points.` : null}</p> : null}
                 <div>
-                    <button onClick={submitScoreForCurrentPlayer} className="submit-button" >Submit score</button> &nbsp;
+                    <button className="number-button farkle-button" onClick={submitFarkleScore}>FARKLE</button> &nbsp;
                     <button className="clear-button" onClick={(e) => {setBufferScoreString("0")}}>Clear score</button>
                 </div>
             </div>
@@ -281,12 +296,17 @@ export const Farkle = () => {
                 <div className="button-three-pack">
                     <button className="number-button" value="00" onClick={((e) => {setBufferScoreField(e.target.value)})}>00</button> &nbsp; 
                     <button className="number-button" value="0" onClick={((e) => {setBufferScoreField(e.target.value)})}>0</button> &nbsp; 
-                    <button className="number-button farkle-button" onClick={submitFarkleScore}>FARKLE</button>
+                    <button onClick={submitScoreForCurrentPlayer} className="number-button submit-button" >Submit score</button>
                 </div>
             </div>
         </div>
         }
-        
+        {/* <div class="lights-container">
+		    <div class="lights"></div>
+		    <div class="lights"></div>
+		    <div class="lights"></div>
+        </div>  */}
+        </div>
         </div>
     )
 };
